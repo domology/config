@@ -1,0 +1,17 @@
+- alias: alarm_triggered
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: alarm_control_panel.house
+    from: 'armed_away'
+    to: 'triggered'
+  action:
+    - service: notify.alarma
+      data:
+        title: "Alarma de Casa"
+        message: '{{ "\u26A0" }} Pre-Aviso {{ states[states.alarm_control_panel.house.attributes.changed_by.split(".")[0]][ states.alarm_control_panel.house.attributes.changed_by.split(".")[1]].name }}'
+        data:
+          push:
+            badge: 0
+            sound: "alarma.wav"
+            category: 'alarma'
